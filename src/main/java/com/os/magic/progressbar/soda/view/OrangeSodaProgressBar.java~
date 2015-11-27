@@ -30,32 +30,21 @@ import java.util.Random;
  */
 public class OrangeSodaProgressBar extends View {
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private static final int COLOR_WHITE = 0xfffde399;
-    private static final int COLOR_ORANGE = 0xffffa800;
-    /**
-     * 振幅
-     */
-    private static final int AMPLITUDE_MIDDLE = 13;
-
-    /**
-     * 振幅差
-     */
+    // 淡白色
+    private static final int WHITE_COLOR = 0xfffde399;
+    // 橙色
+    private static final int ORANGE_COLOR = 0xffffa800;
+    // 中等振幅大小
+    private static final int MIDDLE_AMPLITUDE = 13;
+    // 不同类型之间的振幅差距
     private static final int AMPLITUDE_DISPARITY = 5;
-    /**
-     *  果粒飘动一个周期所花的时间
-     */
+    // 果粒飘动一个周期所花的时间
     private static final long TIME_FLOAT = 3000;
-    /**
-     * 果粒旋转一周需要的时间
-     */
+    // 果粒旋转一周需要的时间
     private static final long TIME_ROTATE = 2000;
-    /**
-     *  用于控制绘制的进度条距离左／上／下的距离
-     */
+    // 用于控制绘制的进度条距离左／上／下的距离
     private static final int LEFT_MARGIN = 9;
-    /**
-     * 用于控制绘制的进度条距离右的距离
-     */
+    // 用于控制绘制的进度条距离右的距离
     private static final int RIGHT_MARGIN = 25;
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -225,10 +214,10 @@ public class OrangeSodaProgressBar extends View {
                 | Paint.DITHER_FLAG | Paint.FILTER_BITMAP_FLAG);
 
         m_orangePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        m_orangePaint.setColor(COLOR_ORANGE);
+        m_orangePaint.setColor(ORANGE_COLOR);
 
         m_whitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        m_whitePaint.setColor(COLOR_WHITE);
+        m_whitePaint.setColor(WHITE_COLOR);
     }
 
     @Override
@@ -336,6 +325,9 @@ public class OrangeSodaProgressBar extends View {
     private void drawBackground(Canvas canvas) {
         canvas.drawBitmap(m_outRoundedBitmap, m_outerSrcRect, m_outerDestRect, m_bitmapPaint);
     }
+
+    //取一个不可能的值
+    private float m_previousProgressPosition = -1;
 
     /**
      * 绘制出进度条的形状
@@ -490,18 +482,18 @@ public class OrangeSodaProgressBar extends View {
         // y = A(wx+Q)+h
 
         float w = (float) ((float) 2 * Math.PI / m_progressWidth);
-        float a = AMPLITUDE_MIDDLE;
+        float a = MIDDLE_AMPLITUDE;
         switch (pulp.m_type) {
             case Pulp.TYPE_LITTLE:
                 // 小振幅 ＝ 中等振幅 － 振幅差
-                a = AMPLITUDE_MIDDLE - AMPLITUDE_DISPARITY;
+                a = MIDDLE_AMPLITUDE - AMPLITUDE_DISPARITY;
                 break;
             case Pulp.TYPE_MID:
-                a = AMPLITUDE_MIDDLE;
+                a = MIDDLE_AMPLITUDE;
                 break;
             case Pulp.TYPE_HIGH:
                 // 大振幅 ＝ 中等振幅 + 振幅差
-                a = AMPLITUDE_MIDDLE + AMPLITUDE_DISPARITY;
+                a = MIDDLE_AMPLITUDE + AMPLITUDE_DISPARITY;
                 break;
             default:
                 break;
@@ -688,4 +680,3 @@ public class OrangeSodaProgressBar extends View {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 }
-
